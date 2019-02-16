@@ -18,22 +18,23 @@ The user can:
     Delete
     Close
     """
-    
 from tkinter import *
-import backend
+from backend import Database
+
+database = Database("books.db")
 
 def view_command():
     list1.delete(0, END) #clear the list before insert anything
-    for row in backend.view():
+    for row in database.view():
         list1.insert(END, row) #new rows will be inserted at the end of the row
     
 def search_command():
     list1.delete(0, END)
-    for row in backend.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):#get() to produce a string
+    for row in database.search(title_text.get(), author_text.get(), year_text.get(), isbn_text.get()):#get() to produce a string
         list1.insert(END, row)
 
 def add_command():
-    backend.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
+    database.insert(title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
     list1.delete(0, END)
     list1.insert(END, (title_text.get(), author_text.get(), year_text.get(), isbn_text.get()))
 
@@ -53,14 +54,14 @@ def get_selected_row(event):
     e4.insert(END, selected_tuple[4])
     
 def delete_command():
-    backend.delete(selected_tuple[0])
+    database.delete(selected_tuple[0])
     
 def update_command():
-    backend.update(selected_tuple[0], title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
-
+    database.update(selected_tuple[0], title_text.get(), author_text.get(), year_text.get(), isbn_text.get())
 
 window = Tk()
 window.wm_title("BookStore")
+
 #create labels
 l1 = Label(window, text = "Title")
 l1.grid(row = 0, column = 0)
