@@ -35,8 +35,13 @@ class Database:
     #delete a record
     def delete(self, id):
         self.cur.execute("DELETE FROM book WHERE id = ?", (id,))
-    
+        self.conn.commit()
+        
     #update a record
     def update(self, id, title, author, year, isbn):
         self.cur.execute("UPDATE book SET title = ?, author = ?, year = ?, isbn = ? WHERE id = ?", (title, author, year, isbn, id))
-        
+        self.conn.commit()
+    
+    #executed when the frontend script is exited
+    def __del__(self):
+        self.commit.close()
